@@ -19,6 +19,7 @@ const getMovies = async (request) => {
     const movies = json.Search;
     movies.forEach(movie => {
       createMovieElement(movie);
+      createMovieModal(movie);
     });
     } catch (error) {
       console.log('Response error :s : ', error.message);
@@ -27,9 +28,8 @@ const getMovies = async (request) => {
 
 // CREATES HTML elements section from a detailed movie
 const createMovieElement = (movie) => {
-  console.log(movie);
   main.innerHTML += `
-  <div class="col-5 m-5 card border">
+  <div id="movieCard__${movie.imdbID}" class="col-5 m-5 card border">
     <div class="row g-0">
       <div class="col-md-3 p-4">
         <img src="${movie.Poster}" class="img-fluid rounded-start" alt="poster">
@@ -39,37 +39,32 @@ const createMovieElement = (movie) => {
           <h5 class="card-title">${movie.Title}</h5>
           <p class="card-text">Sorti en ${movie.Year}</p>
           <button id="button__${movie.imdbID}" class="btn btn-warning mt-3 px-5">Détails</button>
-          <div id="modal__${movie.imdbID}" class="modal">
-            <div class="modal-content">
-              <span class="close">&times;</span>
-              <p>$ {movie.Plot}</p>
-            </div>
-          </div>
         </div>
       </div>
     </div>
   </div>
   `;
-}
+};
 
-
-
-
-// RETURNS a detailed movie from an id
-const getMovieDetailed = async (movieId) => {
+const createMovieModal = async (movie) => {
   try {
-    const request = 'http://www.omdbapi.com/?apikey=55c79898&i=' + movieId;
+    const request = 'http://www.omdbapi.com/?apikey=55c79898&i=' + movie.imdbID;
     const response = await window.fetch(request);
     const detailedMovie = await response.json();
-    return detailedMovie;
+    const plot = detailedMovie.Plot;
+    const movieCard = document.getElementById('movieCard__' + movie.imdbID);
+    movieCard.innerHTML += `
+      <div id="modal__${movie.imdbID}" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <p>${plot}</p>
+        </div>
+      </div>
+    `;
   } catch (error) {
     console.log('Response error :s : ', error.message);
   }
-}
-
-
-// MAIN EXEC / EVENT LISTENERS
-
+};
 
 
 
