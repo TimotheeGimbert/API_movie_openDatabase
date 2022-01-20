@@ -1,5 +1,33 @@
-const createMovie = (movie) => {
-  const main = document.getElementsByTagName('main')[0];
+// Adds an event listener on the submit button to send a request/fetch
+const submitButton = document.getElementById('submitButton');
+const main = document.getElementsByTagName('main')[0];
+
+submitButton.addEventListener('click', (e) => {
+  e.preventDefault();
+  main.innerHTML = '';
+  const keywords = document.getElementById('keywords').value;
+  const keywordsAdapted = keywords.replace(/ /g, '+');
+  const request = 'http://www.omdbapi.com/?apikey=55c79898&s=' + keywordsAdapted;
+  getMovies(request);
+});
+
+// RETURNS a list of movies from a request
+const getMovies = async (request) => {
+  try {
+    const response = await window.fetch(request);
+    const json = await response.json();
+    const movies = json.Search;
+    movies.forEach(movie => {
+      createMovieElement(movie);
+    });
+    } catch (error) {
+      console.log('Response error :s : ', error.message);
+  }  
+};
+
+// CREATES HTML elements section from a detailed movie
+const createMovieElement = (movie) => {
+  console.log(movie);
   main.innerHTML += `
   <div class="col-5 m-5 card border">
     <div class="row g-0">
@@ -10,38 +38,45 @@ const createMovie = (movie) => {
         <div class="card-body text-center mt-5">
           <h5 class="card-title">${movie.Title}</h5>
           <p class="card-text">Sorti en ${movie.Year}</p>
-          <button id="detailsButton" class="btn btn-warning mt-3 px-5">Détails</button>
+          <button id="button__${movie.imdbID}" class="btn btn-warning mt-3 px-5">Détails</button>
+          <div id="modal__${movie.imdbID}" class="modal">
+            <div class="modal-content">
+              <span class="close">&times;</span>
+              <p>$ {movie.Plot}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  `; 
+  `;
 }
 
-const displayMovies = (movies) => {
-  movies.forEach(movie => {
-    createMovie(movie);
+
+
+
+// RETURNS a detailed movie from an id
+const getMovieDetailed = async (movieId) => {
+  try {
+    const request = 'http://www.omdbapi.com/?apikey=55c79898&i=' + movieId;
+    const response = await window.fetch(request);
+    const detailedMovie = await response.json();
+    return detailedMovie;
+  } catch (error) {
+    console.log('Response error :s : ', error.message);
+  }
+}
+
+
+// MAIN EXEC / EVENT LISTENERS
+
+
+
+
+const AddModalsListeners = (id) => {
+  const button = document.getElementById('button__'+id);
+  const modal = document.getElementById('modal__'+id);
+  button.addEventListener('click', () => {
+    modal.style.display = 'block';
   });
 };
-
-const getMovies = async (request) => {
-  try {
-    const response = await window.fetch(request);
-    const json = await response.json();
-    const movies = json.Search;
-    console.log(movies);
-    displayMovies(movies);
-    } catch (error) {
-      console.log('Response error :s : ', error.message);
-  }  
-};
-
-const submitButton = document.getElementById('submitButton');
-submitButton.addEventListener('click', (e) => {
-  e.preventDefault();
-  const keyString = document.getElementById('keywords').value;
-  const requestString = keyString.replace(/ /g, '+');
-  const request = 'http://www.omdbapi.com/?apikey=55c79898&s=' + requestString;
-  getMovies(request);
-});
-
