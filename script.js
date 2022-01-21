@@ -39,7 +39,7 @@ const createMovieElement = (movie) => {
         <div class="card-body text-center mt-5">
           <h5 class="card-title">${movie.Title}</h5>
           <p class="card-text">Sorti en ${movie.Year}</p>
-          <button id="button__${movie.imdbID}" class="btn btn-warning mt-3 px-5">Détails</button>
+          <button id="button__${movie.imdbID}" class="btn btn-warning mt-3 px-5">Description</button>
         </div>
       </div>
     </div>
@@ -88,5 +88,10 @@ const createModalListener = (id) => {
   });
   span.addEventListener('click', () => {
     modal.style.display = 'none';
-  });
+  }); 
+  window.addEventListener('click', (e) => {
+    if (e.target == modal) {
+      modal.style.display = "none";
+    }
+  }); 
 };
