@@ -66,7 +66,7 @@ const createMovieModal = async (movie) => {
               <p>${plot}</p>
             </div>
             <div class="col-3 text-center">
-              <span class="close m-5">&times;</span>
+              <span id="span__${movie.imdbID}" class="close m-5">&times;</span>
             </div>
           </div>
         </div>
@@ -82,7 +82,11 @@ const createMovieModal = async (movie) => {
 const createModalListener = (id) => {
   const button = document.getElementById('button__'+id);
   const modal = document.getElementById('modal__'+id);
+  const span = document.getElementById('span__'+id);
   button.addEventListener('click', () => {
     modal.style.display = 'block';
+  });
+  span.addEventListener('click', () => {
+    modal.style.display = 'none';
   });
 };
