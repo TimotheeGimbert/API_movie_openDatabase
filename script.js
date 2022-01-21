@@ -1,18 +1,19 @@
-// Adds an event listener on the submit button to send a request/fetch
+// DOM VARIABLES
 const submitButton = document.getElementById('submitButton');
 const main = document.getElementsByTagName('main')[0];
 
+// Event listener on the submit button to send a request/fetch
 submitButton.addEventListener('click', (e) => {
   e.preventDefault();
   main.innerHTML = '';
   const keywords = document.getElementById('keywords').value;
   const keywordsAdapted = keywords.replace(/ /g, '+');
   const request = 'http://www.omdbapi.com/?apikey=55c79898&s=' + keywordsAdapted;
-  getMovies(request);
+  displayMovies(request);
 });
 
-// RETURNS a list of movies from a request
-const getMovies = async (request) => {
+// Displays list of searched film (called by Event Listener on submitButton)
+const displayMovies = async (request) => {
   try {
     const response = await window.fetch(request);
     const json = await response.json();
@@ -26,7 +27,7 @@ const getMovies = async (request) => {
   }  
 };
 
-// CREATES HTML elements section from a detailed movie
+// Creates the HTML card elements for a movie
 const createMovieElement = (movie) => {
   main.innerHTML += `
   <div id="movieCard__${movie.imdbID}" class="col-5 m-5 card border">
@@ -46,6 +47,7 @@ const createMovieElement = (movie) => {
   `;
 };
 
+// Adds hidden modals to a movie
 const createMovieModal = async (movie) => {
   try {
     const request = 'http://www.omdbapi.com/?apikey=55c79898&i=' + movie.imdbID;
@@ -54,21 +56,30 @@ const createMovieModal = async (movie) => {
     const plot = detailedMovie.Plot;
     const movieCard = document.getElementById('movieCard__' + movie.imdbID);
     movieCard.innerHTML += `
-      <div id="modal__${movie.imdbID}" class="modal">
+      <div id="modal__${movie.imdbID}" class="modal container-fluid">
         <div class="modal-content">
-          <span class="close">&times;</span>
-          <p>${plot}</p>
+          <div class="row">
+            <div class="col-3 text-center">
+              <img src="${movie.Poster}" class="img-fluid rounded-start" alt="poster">
+            </div>
+            <div class="col-6 px-5 align-self-center">
+              <p>${plot}</p>
+            </div>
+            <div class="col-3 text-center">
+              <span class="close m-5">&times;</span>
+            </div>
+          </div>
         </div>
       </div>
     `;
+    createModalListener(movie.imdbID);
   } catch (error) {
     console.log('Response error :s : ', error.message);
   }
 };
 
 
-
-const AddModalsListeners = (id) => {
+const createModalListener = (id) => {
   const button = document.getElementById('button__'+id);
   const modal = document.getElementById('modal__'+id);
   button.addEventListener('click', () => {
