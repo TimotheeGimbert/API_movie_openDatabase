@@ -1,19 +1,22 @@
 // DOM VARIABLES
-const submitButton = document.getElementById('submitButton');
+const searchButton = document.getElementById('searchButton');
 const main = document.getElementsByTagName('main')[0];
 
+// JS VARIABLES
+const requestPrefix = 'https://www.omdbapi.com/?apikey=55c79898';
+
 // Event listener on the submit button to send a request/fetch
-submitButton.addEventListener('click', (e) => {
-  e.preventDefault();
+searchButton.addEventListener('click', (event) => {
+  event.preventDefault();
   main.innerHTML = '';
-  const keywords = document.getElementById('keywords').value;
-  const keywordsAdapted = keywords.replace(/ /g, '+');
-  const request = 'http://www.omdbapi.com/?apikey=55c79898&s=' + keywordsAdapted;
-  displayMovies(request);
+  const keywordsInput = document.getElementById('keywords').value;
+  const requestSuffix = keywordsInput.replace(/ /g, '+');
+  const request = requestPrefix + '&s=' + requestSuffix;
+  showMovies(request);
 });
 
-// Displays list of searched film (called by Event Listener on submitButton)
-const displayMovies = async (request) => {
+// Displays list of searched film (called by Event Listener on searchButton)
+const showMovies = async (request) => {
   try {
     const response = await window.fetch(request);
     const json = await response.json();
@@ -50,7 +53,7 @@ const createMovieElement = (movie) => {
 // Adds hidden modals to a movie
 const createMovieModal = async (movie) => {
   try {
-    const request = 'http://www.omdbapi.com/?apikey=55c79898&i=' + movie.imdbID;
+    const request = requestPrefix + '&i=' + movie.imdbID;
     const response = await window.fetch(request);
     const detailedMovie = await response.json();
     const plot = detailedMovie.Plot;
