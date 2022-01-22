@@ -1,3 +1,12 @@
+.movie {
+  background-color: rgba(206, 206, 206, 0.26);
+  border: 2px solid rgba(0, 0, 0, 0.466);
+  border-radius: 60px;
+} 
+.movie button {
+  border-radius: 30px;
+}
+ 
  /* The Modal (background) */
  .modal {
   display: none; /* Hidden by default */
