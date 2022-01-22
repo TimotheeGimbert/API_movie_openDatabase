@@ -77,6 +77,7 @@ const displayMovie = (movie) => {
   `;
   getMovieDetailed(movie.imdbID).then(movieDetailed => { 
     createModal(movieDetailed);
+    createModalListener(movieDetailed.imdbID);
   });
 };
 
@@ -91,7 +92,12 @@ const createModal =  (movie) => {
             <img src="${movie.Poster}" class="img-fluid rounded" alt="">
           </div>
           <div class="col-6 px-5 align-self-center">
-            <p>${movie.Plot}</p>
+            <h1>${movie.Title}</h1>
+            <h4 class="text-muted">(${movie.Year})</h4>
+            <h5>${movie.Genre}</h5>
+            <h6>${movie.Runtime}</h5>
+            <p class="my-3">Actors : ${movie.Actors}</p>
+            <p class="my-5">${movie.Plot}</p>
           </div>
           <div class="col-3 text-center">
             <span id="span__${movie.imdbID}" class="close m-5">&times;</span>
@@ -100,7 +106,6 @@ const createModal =  (movie) => {
       </div>
     </div>
   `;
-  createModalListener(movie.imdbID);
 };
 
 const createModalListener = (id) => {
