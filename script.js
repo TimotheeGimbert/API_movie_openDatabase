@@ -67,10 +67,10 @@ const displayMovie = (movie) => {
       <div class="col-md-2 mx-md-5 p-0 col-7 mx-auto">
         <img src="${movie.Poster}" class="img-fluid rounded" alt="">
       </div>
-      <div class="movie col my-3 p-3 d-flex flex-column justify-content-center align-items-center">
+      <div id="movie__${movie.imdbID}" class="movie col-12 col-md my-4 p-3 d-flex flex-column justify-content-center align-items-center">
         <h6>${movie.Title}</h6>
-        <p class="text-muted">${movie.Year}</p>
-        <button id="button__${movie.imdbID}" class="btn btn-outline-dark mt-1 px-5">Details</button>
+        <p class="text-muted mb-0">${movie.Year}</p>
+        <button id="button__${movie.imdbID}" class="d-md-none btn btn-warning mt-1 px-5">Details</button>
       </div>
     </div>
   </div>
@@ -88,10 +88,10 @@ const createModal =  (movie) => {
     <div id="modal__${movie.imdbID}" class="modal container-fluid">
       <div class="modal-content">
         <div class="row py-4">
-          <div class="col-3 m-4 text-center">
+          <div class="col-10 col-md-3 m-4 text-center">
             <img src="${movie.Poster}" class="img-fluid rounded" alt="">
           </div>
-          <div class="col-6 px-5 align-self-center">
+          <div class="col-12 col-md-6 px-5 align-self-center">
             <h1>${movie.Title}</h1>
             <h4 class="text-muted">(${movie.Year})</h4>
             <h5>${movie.Genre}</h5>
@@ -99,7 +99,7 @@ const createModal =  (movie) => {
             <p class="my-3">Actors : ${movie.Actors}</p>
             <p class="my-5">${movie.Plot}</p>
           </div>
-          <div class="col-2 text-center">
+          <div class="col-6 mx-auto col-md-2 text-center">
             <span id="span__${movie.imdbID}" class="close m-5">&times;</span>
           </div>
         </div>
@@ -109,10 +109,10 @@ const createModal =  (movie) => {
 };
 
 const createModalListener = (id) => {
-  const button = document.getElementById('button__'+id);
+  const movie = document.getElementById('movie__'+id);
   const modal = document.getElementById('modal__'+id);
   const span = document.getElementById('span__'+id);
-  button.addEventListener('click', () => {
+  movie.addEventListener('click', () => {
     modal.style.display = 'block';
   });
   span.addEventListener('click', () => {

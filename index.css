@@ -1,12 +1,17 @@
 .movie {
-  background-color: rgba(105, 108, 110, 0.034);
+  background-color: rgba(255, 255, 255, 0.918);
   border: 2px solid rgba(0, 0, 0, 0.466);
-  border-radius: 30px;
+  border-radius: 22px;
 } 
 .movie button {
-  border-radius: 30px;
+  border-radius: 22px;
 }
- 
+.movie:hover {
+  background-color: rgba(1, 1, 2, 0.849);
+  color: rgba(255, 255, 255, 0.918);
+  cursor: pointer;
+}
+
  /* The Modal (background) */
  .modal {
   display: none; /* Hidden by default */
