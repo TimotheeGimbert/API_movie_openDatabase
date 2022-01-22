@@ -87,8 +87,8 @@ const createModal =  (movie) => {
   movieCard.innerHTML += `
     <div id="modal__${movie.imdbID}" class="modal container-fluid">
       <div class="modal-content">
-        <div class="row">
-          <div class="col-3 text-center">
+        <div class="row py-4">
+          <div class="col-3 m-4 text-center">
             <img src="${movie.Poster}" class="img-fluid rounded" alt="">
           </div>
           <div class="col-6 px-5 align-self-center">
@@ -99,7 +99,7 @@ const createModal =  (movie) => {
             <p class="my-3">Actors : ${movie.Actors}</p>
             <p class="my-5">${movie.Plot}</p>
           </div>
-          <div class="col-3 text-center">
+          <div class="col-2 text-center">
             <span id="span__${movie.imdbID}" class="close m-5">&times;</span>
           </div>
         </div>
