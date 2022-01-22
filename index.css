@@ -1,7 +1,7 @@
 .movie {
-  background-color: rgba(206, 206, 206, 0.26);
+  background-color: rgba(190, 217, 248, 0.137);
   border: 2px solid rgba(0, 0, 0, 0.466);
-  border-radius: 60px;
+  border-radius: 30px;
 } 
 .movie button {
   border-radius: 30px;
