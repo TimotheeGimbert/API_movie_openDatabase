@@ -1,8 +1,7 @@
 const urlStart = 'https://www.omdbapi.com/?apikey=55c79898';
 const main = document.getElementsByTagName('main')[0];
-const searchButton = document.getElementById('searchButton');
 
-searchButton.addEventListener('click', (event) => {
+document.getElementById('searchButton').addEventListener('click', (event) => {
   event.preventDefault();
   main.innerHTML = '';
   showMovies();
@@ -14,9 +13,12 @@ searchButton.addEventListener('click', (event) => {
 const showMovies = () => {
   const requestPrefix = '&s=';
   const requestUrl = getRequestUrl(requestPrefix);
-  getMovies(requestUrl).then( movies => {
+  getMovies(requestUrl)
+  .then( movies => {
     movies.forEach( movie => {
       displayMovie(movie);
+      createIntersectionObserver(movie.imdbID);
+
     });
   });
 };
@@ -60,7 +62,7 @@ const get = async (url) => {
 // Creates the HTML movie element and modal and modal listener
 const displayMovie = (movie) => {
   main.innerHTML += `
-  <div id="movieCard__${movie.imdbID}" class="col-md-5 m-md-5 col-10 my-3">
+  <div id="movieCard__${movie.imdbID}" class="reveal col-md-4 m-md-5 col-10 my-3">
     <div class="row">
       <div class="col-md-2 mx-md-5 p-0 col-7 mx-auto">
         <img src="${movie.Poster}" class="img-fluid rounded" alt="">
@@ -113,7 +115,16 @@ const createModalListener = (id) => {
   const modal = document.getElementById('modal__'+id);
   const span = document.getElementById('span__'+id);
   movie.addEventListener('click', () => {
+    getMovieDetailed(id)
+    .then(movieDetailed => { 
+      
+      createModal(movieDetailed);
+      createModalListener(movieDetailed.imdbID);
+      
+      
+    });
     modal.style.display = 'block';
+    console.log('block enable');
   });
   span.addEventListener('click', () => {
     modal.style.display = 'none';
@@ -124,3 +135,25 @@ const createModalListener = (id) => {
     }
   }); 
 };
+
+const createIntersectionObserver = (id) => {
+  const options = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.5
+  };
+  const handleIntersect = (entries, observer) => {
+    entries.forEach( (entry) => {
+      if (entry.intersectionRatio > 0.5) {
+        console.log(entry.intersectionRatio);
+        entry.target.classList.add('reveal-visible');
+        observer.unobserve(entry.target);
+      }
+    })
+  }
+  
+  const observer = new IntersectionObserver(handleIntersect, options);
+  const revealElements = document.querySelector('#movieCard__'+ id +'.reveal');
+    observer.observe(revealElements);
+
+}
