@@ -47,21 +47,23 @@ const createModalListener = (movieID) => {
     createModal(movieDetailed);
     const modal = document.getElementById('modal__'+movieID);
     modal.style.display = 'block';
+    const modalClose = document.getElementById('modalClose__'+movieID);
+    modalClose.addEventListener('click', () => modal.style.display = "none");
     window.addEventListener('click', (e) => e.target === modal ? modal.style.display = "none" : null);
   });
 };
 
 const createMovie = (movie) => {
   document.querySelector('main').innerHTML += `
-  <div id="${movie.imdbID}" class="reveal col-md-6 m-md-5 col-10 my-3">
+  <div id="${movie.imdbID}" class="reveal col-lg-6 m-lg-5 col-10 my-3">
     <div class="row">
-      <div class="col-md-2 mx-md-5 p-0 col-7 mx-auto">
+      <div class="col-lg-2 mx-lg-5 p-0 col-7 mx-auto">
         <img src="${movie.Poster}" class="img-fluid rounded" alt="">
       </div>
-      <div class="movie col-12 col-md my-4 mx-5 d-flex flex-column justify-content-center align-items-center">
+      <div class="movie col my-4 mx-auto mx-lg-5 p-3 d-flex flex-column justify-content-center align-items-center">
         <h6>${movie.Title}</h6>
         <p class="text-muted mb-0">${movie.Year}</p>
-        <button id="button__${movie.imdbID}" class="d-md-none btn btn-warning mt-1 px-5">Details</button>
+        <button id="button__${movie.imdbID}" class="d-lg-none btn btn-warning mt-1 px-5">Details</button>
       </div>
     </div>
   </div>
@@ -97,10 +99,10 @@ const createModal = (movie) => {
     <div id="modal__${movie.imdbID}" class="modal container-fluid">
       <div class="modal-content">
         <div class="row py-4">
-          <div class="col-10 col-md-3 m-4 text-center">
+          <div class="col-10 col-lg-3 m-4 mx-auto text-center">
             <img src="${movie.Poster}" class="img-fluid rounded" alt="">
           </div>
-          <div class="col col-md-7 mx-auto px-5 align-self-center">
+          <div class="col col-lg-7 mx-auto px-5 align-self-center">
             <h1>${movie.Title}</h1>
             <h4 class="text-muted">(${movie.Year})</h4>
             <h5>${movie.Genre}</h5>
@@ -108,6 +110,7 @@ const createModal = (movie) => {
             <p class="my-3">Actors : ${movie.Actors}</p>
             <p class="my-5">${movie.Plot}</p>
           </div>
+          <button id="modalClose__${movie.imdbID}" class="d-lg-none btn btn-danger px-5">Close</button>
         </div>
       </div>
     </div>
