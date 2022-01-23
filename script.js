@@ -8,6 +8,9 @@ searchButton.addEventListener('click', (event) => {
   showMovies();
 });
 
+  //createModal(movieDetailed);
+  //createModalListener(movieDetailed.imdbID);
+
 const showMovies = () => {
   const requestPrefix = '&s=';
   const requestUrl = getRequestUrl(requestPrefix);
@@ -39,14 +42,10 @@ const getMovies = async (requestUrl) => {
 
 // Returns a detailed movie from its ID
 const getMovieDetailed = async (movieID) => {
-  const request = urlStart + '&i=' + movieID;
-  try {
-    const response = await fetch(request);
-    const detailedMovie = await response.json();
-    return detailedMovie;
-  }catch (error) { 
-    console.error('Error fetching details of a movie : ', error.message); 
-  }
+  const requestUrl = urlStart + '&i=' + movieID;
+  return get(requestUrl).then( movieDetailed => {
+    return movieDetailed;
+  });
 }
 
 // ASYNC HTTP REQUEST
@@ -54,10 +53,9 @@ const get = async (url) => {
   try {
     const response = await fetch(url);
     return await response.json();
-  }catch (error) { 
-    console.error('Error fetching data : ', error.message); 
-  }
+  }catch (error) { console.error('Error fetching data : ', error.message); }
 };
+
 
 // Creates the HTML movie element and modal and modal listener
 const displayMovie = (movie) => {
@@ -75,15 +73,15 @@ const displayMovie = (movie) => {
     </div>
   </div>
   `;
-  getMovieDetailed(movie.imdbID).then(movieDetailed => { 
+  getMovieDetailed(movie.imdbID).then( movieDetailed => {
     createModal(movieDetailed);
-    createModalListener(movieDetailed.imdbID);
   });
 };
 
 // Adds hidden modals to a movie
 const createModal =  (movie) => {
   const movieCard = document.getElementById('movieCard__' + movie.imdbID);
+  const modalsContainer = document.getElementById('modalsContainer');
   movieCard.innerHTML += `
     <div id="modal__${movie.imdbID}" class="modal container-fluid">
       <div class="modal-content">
@@ -106,6 +104,8 @@ const createModal =  (movie) => {
       </div>
     </div>
   `;
+  console.log(movie.imdbID);
+  createModalListener(movie.imdbID);
 };
 
 const createModalListener = (id) => {
