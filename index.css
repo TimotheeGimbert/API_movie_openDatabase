@@ -1,11 +1,11 @@
 .reveal {
   opacity: 0;
-  transform: translateX(-100px);
+  transform: translateY(200px);
 }
 .reveal-visible {
   opacity: 1;
-  transform: translateX(0);
-  transition-duration: 1s;
+  transform: translateY(0);
+  transition-duration: 0.5s;
 }
 
 .movie {
@@ -17,8 +17,8 @@
   border-radius: 22px;
 }
 .movie:hover {
-  background-color: rgba(1, 1, 2, 0.849);
-  color: rgba(255, 255, 255, 0.918);
+  border: 9px solid rgba(2, 2, 2, 0.712);
+  background-color: white;
   cursor: pointer;
 }
 
